@@ -3,7 +3,7 @@
 ## MITOS_WSI_CMC data set
 
 This repository contains all code needed to derive the Technical Validation of our paper:
-> Aubreville, M., Bertram, C.A., Marzahl, C. Maier, A., & Klopfleisch R. (2020): Dogs as Model for Human Breast Cancer: A Completely Annotated Whole Slide Image Dataset (submitted)
+> Aubreville, M., Bertram, C.A., Donovan, T.A. et al. A completely annotated whole slide image dataset of canine breast cancer to aid human breast cancer research. Sci Data 7, 417 (2020). https://doi.org/10.1038/s41597-020-00756-z
 
 It contains two main parts:
 
