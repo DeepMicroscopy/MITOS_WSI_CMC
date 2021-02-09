@@ -5,6 +5,11 @@
 This repository contains all code needed to derive the Technical Validation of our paper:
 > Aubreville, M., Bertram, C.A., Donovan, T.A. et al. A completely annotated whole slide image dataset of canine breast cancer to aid human breast cancer research. Sci Data 7, 417 (2020). https://doi.org/10.1038/s41597-020-00756-z
 
+For an introduction into the work, please see the following video:
+[![Watch the video](https://img.youtube.com/vi/gjUmu6zy6HQ/hqdefault.jpg)](https://youtu.be/gjUmu6zy6HQ)
+
+
+
 It contains two main parts:
 
 ### Data set variant evaluation
