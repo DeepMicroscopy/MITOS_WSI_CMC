@@ -32,3 +32,9 @@ The training process can be seen in the notebooks for the respective dataset var
 
 [RetinaNet-CMC-CODAEL.ipynb](RetinaNet-CMC-CODAEL.ipynb)
 
+## Pre-trained models
+
+You can fetch the first run (out of five) that we did for the Sci Data paper here:
+
+[https://imi.thi.de/research/models/CMC/RetinaNet-CMC-CODAEL-512sh-repetition1.pkl.bz2](RetinaNet-CMC-CODAEL-512sh-repetition1.pkl.bz2)
+
