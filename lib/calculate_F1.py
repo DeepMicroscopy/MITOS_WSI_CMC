@@ -160,7 +160,7 @@ def calculate_F1(databasefile, result_boxes=None, resfile=None, det_thres=0.5, h
     sF1 = 2*sTP/(2*sTP + sFP + sFN)
     print('TP:', sTP, 'FP:', sFP,'FN: ',sFN,'F1:',sF1)
     print('Number of mitotic figures:',sP)
-    print('Precision: .%.3f '%(sTP / (sTP+sFP)))
+    print('Precision: %.3f '%(sTP / (sTP+sFP)))
     print('Recall: %.3f' %(sTP / (sTP+sFN)))
     
     #print('Not working on: ',np.array(DB.execute(f'SELECT uid from Slides where uid not in ({",".join(slideids)})').fetchall()).flatten())
