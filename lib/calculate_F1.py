@@ -16,7 +16,7 @@ import pickle
 import numpy as np
 from sklearn.neighbors import KDTree
 
-from SlideRunner.dataAccess.database import Database
+from SlideRunner_dataAccess.database import Database
 from lib.nms_WSI import nms
 
 def _F1_core(centers_DB : np.ndarray, boxes : np.ndarray, score : np.ndarray, det_thres:float):
@@ -90,7 +90,7 @@ def _F1_core(centers_DB : np.ndarray, boxes : np.ndarray, score : np.ndarray, de
 
 
 
-def calculate_F1(databasefile, result_boxes=None, resfile=None, det_thres=0.5, hotclass=2):
+def calculate_F1(databasefile, result_boxes=None, resfile=None, det_thres=0.5, hotclass=2,verbose=False):
 
     
     DB = Database()
@@ -109,47 +109,61 @@ def calculate_F1(databasefile, result_boxes=None, resfile=None, det_thres=0.5, h
 
     sTP, sFN, sFP = 0,0,0
     F1dict = dict()
+    sP = 0
     
     result_boxes = nms(result_boxes, det_thres)
     
-
     print('Calculating F1 for test set of %d files' % len(result_boxes))
+    #mitcount = DB.execute(f'SELECT COUNT(*) FROM Annotations where agreedClass={hotclass}').fetchall()
+    #print('Official count of mitotic figures in DB: ', mitcount)
+    
+    slideids = []
     
     for resfile in result_boxes:
         boxes = np.array(result_boxes[resfile])
         
 
         TP, FP, FN,F1 = 0,0,0,0
+        slide_id=DB.findSlideWithFilename(resfile,'')
+        slideids.append(str(slide_id))
+        DB.loadIntoMemory(slide_id)
+
+        annoList=[]
+        for annoI in DB.annotations:
+            anno = DB.annotations[annoI]
+            if anno.agreedClass==hotclass:
+                annoList.append([anno.x1,anno.y1])
+
+        centers_DB = np.array(annoList)
+
         if boxes.shape[0]>0:
             score = boxes[:,-1]
 #            print('ID:',resfile,DB.findSlideWithFilename(resfile,''))
-            DB.loadIntoMemory(DB.findSlideWithFilename(resfile,''))
             
-
-            # perform NMS on detections
-
-            annoList=[]
-            for annoI in DB.annotations:
-                anno = DB.annotations[annoI]
-                if anno.agreedClass==hotclass:
-                    annoList.append([anno.x1,anno.y1])
-
-            centers_DB = np.array(annoList)
-
-
             F1,TP,FP,FN = _F1_core(centers_DB, boxes, score,det_thres)
+            if (centers_DB.shape[0] != TP+FN):
+                print(resfile,centers_DB.shape[0],TP+FN)
+        else: # no detections --> missed all
+            FN = centers_DB.shape[0] 
         
-
+        if (verbose):
+            print(f'{resfile}: F1:{F1}, TP:{TP}, FP:{FP}, FN:{FN}')
 
 
         sTP+=TP
         sFP+=FP
+        sP += centers_DB.shape[0]
         sFN+=FN
         F1dict[resfile]=F1
         
     print('Overall: ')
     sF1 = 2*sTP/(2*sTP + sFP + sFN)
     print('TP:', sTP, 'FP:', sFP,'FN: ',sFN,'F1:',sF1)
+    print('Number of mitotic figures:',sP)
+    print('Precision: .%.3f '%(sTP / (sTP+sFP)))
+    print('Recall: %.3f' %(sTP / (sTP+sFN)))
+    
+    #print('Not working on: ',np.array(DB.execute(f'SELECT uid from Slides where uid not in ({",".join(slideids)})').fetchall()).flatten())
 
     return sF1, F1dict
 
