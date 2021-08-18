@@ -13,7 +13,9 @@ For an introduction into the work, please see the following video:
 In the dataset paper, the file fa4959e484beec77543b.svs was listed as part of the training set, and the file 4eee7b944ad5e46c60ce.svs to be part of the test set. However, the technical evaluation was carried out using 4eee7b944ad5e46c60ce.svs as part of the training set and fa4959e484beec77543b.svs as part of the test set. The error seems to be traceable to different database versions during development. We are sorry for the inconvenience.
 
 
-It contains two main parts:
+## Overview
+
+The dataset contains two main parts:
 
 ### Data set variant evaluation
 
