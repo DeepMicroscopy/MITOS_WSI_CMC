@@ -8,10 +8,15 @@ This repository contains all code needed to derive the Technical Validation of o
 For an introduction into the work, please see the following video:
 [![Watch the video](https://img.youtube.com/vi/gjUmu6zy6HQ/hqdefault.jpg)](https://youtu.be/gjUmu6zy6HQ)
 
-## Erratum
+## Erratum (corrected)
 
-In the dataset paper, the file fa4959e484beec77543b.svs was listed as part of the training set, and the file 4eee7b944ad5e46c60ce.svs to be part of the test set. However, the technical evaluation was carried out using 4eee7b944ad5e46c60ce.svs as part of the training set and fa4959e484beec77543b.svs as part of the test set. The error seems to be traceable to different database versions during development. We are sorry for the inconvenience.
+In the dataset paper, the file fa4959e484beec77543b.svs was listed as part of the training set, and the file 4eee7b944ad5e46c60ce.svs to be part of the test set. This is also how the networks were trained. However, since our process involved putting all WSI (not only the test WSI) through the model during inference (to optimize the threshold on the training data), we split the data after the inference run once again (separate_sets.py). During this step, we had a small glitch in the assignment of files that was not noticed prior to publication and was thankfully pointed out by the github user schwanabc. This error led to a train/test bleed of a single slide. Instead of the file 4eee7b944ad5e46c60ce.svs, the file fa4959e484beec77543b.svs was assigned to the test set in the evaluation, which was, of course, unintended. 
 
+Correcting for this error leads to slightly deteriorated results for some conditions. In general, the derived conclusions (in our paper) still hold true. This is an overview of the changed results (as found in this repository). 
+
+![image](https://user-images.githubusercontent.com/10051592/130193942-5c2fe531-6177-49ad-8760-359de103d8ad.png)
+
+We apologize for the error.
 
 ## Overview
 
